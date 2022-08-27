@@ -2,7 +2,9 @@ package com.example.learningapi
 
 import com.google.gson.annotations.SerializedName
 
-data class DataAPI(
+data class PostDataAPI(
+    @SerializedName("userId")
+    val userID: Int,
     @SerializedName("id")
     val id: Int,
     @SerializedName("title")

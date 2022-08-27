@@ -1,19 +1,18 @@
 package com.example.learningapi
 
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_data.view.*
 
-class DataItemAdapter(val list: ArrayList<DataAPI>) : RecyclerView.Adapter<DataItemAdapter.ViewHolder>() {
+class DataItemAdapter(val list: ArrayList<GetDataAPI>) : RecyclerView.Adapter<DataItemAdapter.ViewHolder>() {
     class ViewHolder(itemView:View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(dataAPI: DataAPI) {
+        fun bind(getDataAPI: GetDataAPI) {
             with(itemView) {
-                idText.text = "ID : ${ dataAPI.id.toString() }"
-                judulText.text = "Judul : ${ dataAPI.judul.toString() }"
-                isiText.text = "Tulisan Random:\n${ dataAPI.text.toString() }"
+                idText.text = "ID : ${ getDataAPI.id.toString() }"
+                judulText.text = "Judul : ${ getDataAPI.judul.toString() }"
+                isiText.text = "Tulisan Random:\n${ getDataAPI.text.toString() }"
             }
         }
     }

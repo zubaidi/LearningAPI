@@ -5,26 +5,22 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Tag
-import java.util.concurrent.Callable
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var dataAdapter: DataItemAdapter
-    val list = ArrayList<DataAPI>()
+    val list = ArrayList<GetDataAPI>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         getDataFromApi()
+
+        createPost()
 
         /*
         val apiHelper = APIHelper.getInstance()
@@ -46,12 +42,31 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun createPost() {
+        APIHelper.api.createPost(
+            29, "Belajar Retrofit", "Zubaidi Belajar Retrofit"
+        ).enqueue(object : Callback<PostDataAPI> {
+            override fun onResponse(call: Call<PostDataAPI>, response: Response<PostDataAPI>) {
+                supportActionBar!!.title = "Learning API Status ${response.code()}"
+                Log.d("hasil : \n", "uid: ${ response.body()?.userID } \n " +
+                        "id: ${ response.body()?.id } \n" +
+                        "judul: ${ response.body()?.judul } \n" +
+                        "text: ${ response.body()?.text }  ")
+            }
+
+            override fun onFailure(call: Call<PostDataAPI>, t: Throwable) {
+                Log.d("hasil : ", t.toString())
+            }
+
+        })
+    }
+
     private fun getDataFromApi() {
 
         listItem.layoutManager = LinearLayoutManager(this)
 
-        APIHelper.api.getPost().enqueue(object : Callback<ArrayList<DataAPI>> {
-            override fun onResponse(call: Call<ArrayList<DataAPI>>, response: Response<ArrayList<DataAPI>>) {
+        APIHelper.api.getPost().enqueue(object : Callback<ArrayList<GetDataAPI>> {
+            override fun onResponse(call: Call<ArrayList<GetDataAPI>>, response: Response<ArrayList<GetDataAPI>>) {
                 if (response.isSuccessful) {
                     supportActionBar!!.title = "Learning API Status ${response.code().toString()}"
                     response.body()?.let {
@@ -63,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<ArrayList<DataAPI>>, t: Throwable) {
+            override fun onFailure(call: Call<ArrayList<GetDataAPI>>, t: Throwable) {
                 Log.d("hasil : ", t.toString())
             }
 
